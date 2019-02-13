@@ -1,0 +1,42 @@
+#include <SoftwareSerial.h>
+String voice;
+SoftwareSerial BTSerial(2, 3); // RX | TX
+int BULB1 = 8;
+
+void On() {
+  digitalWrite (BULB1, HIGH);
+}
+
+void of() {
+  digitalWrite (BULB1, LOW);
+}
+
+void setup() {
+  pinMode(BULB1, OUTPUT); // Trigger for Bulb 1
+  Serial.begin(9600);
+  BTSerial.begin(9600);
+}
+
+void loop() {
+  while(BTSerial.available()){
+    delay(10);
+    char c = BTSerial.read();
+    if (c == '#')
+    {
+      break;
+    }
+    voice += c;
+  }
+  if (voice.length() > 0) {
+    Serial.println(voice);
+    if ((voice == "off road")||(voice == "of"))
+    {
+      On();
+    }
+    if ((voice == "computer can you please turn on the light")||(voice == "on")  )
+    {
+      of();
+    }
+    voice = "";
+  }
+}
