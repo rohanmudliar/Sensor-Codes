@@ -1,0 +1,3 @@
+Brown: Gnd
+red: vcc
+Orange: data
